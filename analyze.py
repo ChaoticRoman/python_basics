@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 from datetime import datetime as dt
 import random
-
 import os
+import sys
 
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 
 def get_ip_and_timestamp_from_line(l):
@@ -38,12 +39,19 @@ def analyze_file(fn):
 
     plt.title(fn)
     plt.plot(times, ys, 'k.')
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S'))
+    plt.gcf().autofmt_xdate()
     plt.show()
 
-files = [fn for fn in os.listdir('.') if fn.startswith("access.log")]
-files.sort()
 
-print(files)
+if __name__ == "__main__":
+    directory = sys.argv[1] if len(sys.argv) > 1 else "."
+    files = [os.path.join(directory, fn)
+             for fn in os.listdir(directory)
+             if fn.startswith("access.log")]
+    files.sort()
 
-for fn in sorted(files):
-    analyze_file(fn)
+    print(files)
+
+    for fn in sorted(files):
+        analyze_file(fn)

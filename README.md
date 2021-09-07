@@ -13,3 +13,7 @@ sudo apt install python3-matplotlib
 ```bash
 ./analyze.py
 ```
+or
+```bash
+./analyze.py <DIRECTORY>
+```
